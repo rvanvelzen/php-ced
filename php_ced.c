@@ -1,7 +1,3 @@
-#include "zend_portability.h"
-
-BEGIN_EXTERN_C()
-
 #ifdef HAVE_CONFIG_H
 # include "config.h"
 #endif
@@ -11,36 +7,12 @@ BEGIN_EXTERN_C()
 #include "php_ced.h"
 #include "php_ced_arginfo.h"
 #include "zend_exceptions.h"
-
-END_EXTERN_C()
-
-#include "compact_enc_det/compact_enc_det.h"
-
-const char *ced_detect_encoding(const char *text, int text_length) {
-    bool is_reliable;
-    int bytes_consumed;
-
-    Encoding encoding = CompactEncDet::DetectEncoding(
-        text,
-        text_length,
-        nullptr,
-        nullptr,
-        nullptr,
-        UNKNOWN_ENCODING,
-        UNKNOWN_LANGUAGE,
-        CompactEncDet::QUERY_CORPUS,
-        true,
-        &bytes_consumed,
-        &is_reliable
-    );
-
-    return MimeEncodingName(encoding);
-}
+#include "ced.h"
 
 zend_class_entry *php_ced_CompactEncDet_ce;
 
 PHP_METHOD (CompactEncDet_CompactEncDet, __construct) {
-    zend_throw_exception(nullptr, "An object of this type cannot be created with the new operator", 0);
+    zend_throw_exception(NULL, "An object of this type cannot be created with the new operator", 0);
 }
 
 PHP_METHOD (CompactEncDet_CompactEncDet, detectEncoding) {
@@ -71,25 +43,23 @@ PHP_MINIT_FUNCTION (ced) {
 PHP_MINFO_FUNCTION (ced) {
     php_info_print_table_start();
     php_info_print_table_header(2, "ced support", "enabled");
-    php_info_print_table_row(2, "CED version", CompactEncDet::Version());
+    php_info_print_table_row(2, "CED version", ced_version());
     php_info_print_table_end();
 }
 
 zend_module_entry ced_module_entry = {
     STANDARD_MODULE_HEADER,
     "ced",
-    nullptr,
+    NULL,
     PHP_MINIT(ced),
-    nullptr,
-    nullptr,
-    nullptr,
+    NULL,
+    NULL,
+    NULL,
     PHP_MINFO(ced),
     PHP_CED_VERSION,
     STANDARD_MODULE_PROPERTIES
 };
 
 #ifdef COMPILE_DL_CED
-BEGIN_EXTERN_C()
 ZEND_GET_MODULE(ced)
-END_EXTERN_C()
 #endif

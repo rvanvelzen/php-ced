@@ -9,7 +9,8 @@ if test "$PHP_CED" != "no"; then
 
   PHP_ADD_INCLUDE(compact_enc_det)
 
-  PHP_NEW_EXTENSION(ced, php_ced.cpp \
+  PHP_NEW_EXTENSION(ced, php_ced.c \
+    ced.cpp \
     compact_enc_det/compact_enc_det/compact_enc_det.cc \
     compact_enc_det/compact_enc_det/compact_enc_det_hint_code.cc \
     compact_enc_det/util/encodings/encodings.cc \
