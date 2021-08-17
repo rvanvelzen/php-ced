@@ -1,5 +1,5 @@
 --TEST--
-Check if compact_enc_det returns expected values
+Check if detectEncoding returns expected values
 --FILE--
 <?php
 use function CompactEncDet\detectEncoding;

@@ -6,22 +6,24 @@
 #include "ext/standard/info.h"
 #include "php_ced.h"
 #include "php_ced_arginfo.h"
-#include "zend_exceptions.h"
 #include "ced.h"
 
 PHP_FUNCTION (detectEncoding) {
     char *input;
     size_t input_len;
+    zend_bool allow_utf8utf8 = 0;
 
-    ZEND_PARSE_PARAMETERS_START(1, 1)
+    ZEND_PARSE_PARAMETERS_START(1, 2)
         Z_PARAM_STRING(input, input_len)
+        Z_PARAM_OPTIONAL
+        Z_PARAM_BOOL(allow_utf8utf8)
     ZEND_PARSE_PARAMETERS_END();
 
     if (input_len > INT_MAX) {
         input_len = INT_MAX;
     }
 
-    RETURN_STRING(ced_detect_encoding(input, input_len));
+    RETURN_STRING(ced_detect_encoding(input, input_len, allow_utf8utf8));
 }
 
 PHP_MINFO_FUNCTION (ced) {
