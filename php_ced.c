@@ -9,13 +9,7 @@
 #include "zend_exceptions.h"
 #include "ced.h"
 
-zend_class_entry *php_ced_CompactEncDet_ce;
-
-PHP_METHOD (CompactEncDet_CompactEncDet, __construct) {
-    zend_throw_exception(NULL, "An object of this type cannot be created with the new operator", 0);
-}
-
-PHP_METHOD (CompactEncDet_CompactEncDet, detectEncoding) {
+PHP_FUNCTION (detectEncoding) {
     char *input;
     size_t input_len;
 
@@ -30,16 +24,6 @@ PHP_METHOD (CompactEncDet_CompactEncDet, detectEncoding) {
     RETURN_STRING(ced_detect_encoding(input, input_len));
 }
 
-PHP_MINIT_FUNCTION (ced) {
-    zend_class_entry ce;
-
-    INIT_CLASS_ENTRY(ce, "CompactEncDet\\CompactEncDet", class_CompactEncDet_CompactEncDet_methods);
-
-    php_ced_CompactEncDet_ce = zend_register_internal_class(&ce);
-
-    return SUCCESS;
-}
-
 PHP_MINFO_FUNCTION (ced) {
     php_info_print_table_start();
     php_info_print_table_header(2, "ced support", "enabled");
@@ -50,8 +34,8 @@ PHP_MINFO_FUNCTION (ced) {
 zend_module_entry ced_module_entry = {
     STANDARD_MODULE_HEADER,
     "ced",
+    ext_functions,
     NULL,
-    PHP_MINIT(ced),
     NULL,
     NULL,
     NULL,

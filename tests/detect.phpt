@@ -2,11 +2,11 @@
 Check if compact_enc_det returns expected values
 --FILE--
 <?php
-use CompactEncDet\CompactEncDet;
+use function CompactEncDet\detectEncoding;
 
 function detect($input) {
   try {
-    var_export(CompactEncDet::detectEncoding($input));
+    var_export(detectEncoding($input));
   } catch (Throwable $ex) {
     echo $ex;
   }
