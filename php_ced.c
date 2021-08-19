@@ -5,8 +5,13 @@
 #include "php.h"
 #include "ext/standard/info.h"
 #include "php_ced.h"
-#include "php_ced_arginfo.h"
 #include "ced.h"
+
+#if PHP_VERSION_ID >= 80000
+# include "php_ced_arginfo.h"
+#else
+# include "php_ced_legacy_arginfo.h"
+#endif
 
 PHP_FUNCTION (detectEncoding) {
     char *input;
